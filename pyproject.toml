@@ -1,0 +1,83 @@
+[project]
+name = "property-assistant"
+version = "1.0.0"
+description = "DarGlobal & Wasalt property assistant - a RAG chatbot over scraped public data"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Satyam Kumar Choudhary", email = "shivreti@gmail.com" }]
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "sse-starlette>=2.1",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "httpx>=0.27",
+    "tenacity>=9.0",
+    "selectolax>=0.3.21",
+    "trafilatura>=1.12",
+    "fastembed>=0.4",
+    "faiss-cpu>=1.9",
+    "rank-bm25>=0.2.2",
+    "numpy>=1.26",
+    "typer>=0.13",
+    "slowapi>=0.1.9",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+property-assistant = "property_assistant.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6.0",
+    "respx>=0.21",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "pre-commit>=4.0",
+    "types-pyyaml>=6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/property_assistant"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "SIM", "RUF", "ASYNC", "PL"]
+ignore = [
+    "PLR0913", # many constructor args are expected with constructor injection
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLR2004", "SIM117"]
+
+[tool.mypy]
+strict = true
+files = ["src"]
+mypy_path = "src"
+explicit_package_bases = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = ["faiss", "rank_bm25", "fastembed", "trafilatura", "slowapi.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["src/property_assistant"]
+omit = ["src/property_assistant/cli.py"]

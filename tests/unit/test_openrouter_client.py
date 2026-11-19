@@ -57,11 +57,13 @@ class TestComplete:
         assert "x-title" in request.headers
         payload = json.loads(request.content)
         assert payload["model"] == "primary/model:free"
+        # The native fallback array is capped at OpenRouter's 3-item limit.
         assert payload["models"] == [
             "primary/model:free",
             "backup/model:free",
             "openrouter/free",
         ]
+        assert len(payload["models"]) <= 3
 
     @respx.mock
     async def test_fallback_to_next_model_on_provider_error(self, settings: Settings) -> None:

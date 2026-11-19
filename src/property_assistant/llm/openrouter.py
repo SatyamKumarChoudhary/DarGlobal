@@ -19,6 +19,8 @@ from property_assistant.llm.base import LLMMessage, LLMResult, StreamChunk
 
 _MAX_RETRY_AFTER_S = 5.0
 _RETRYABLE_STATUSES = frozenset({408, 500, 502, 503, 504})
+# OpenRouter rejects requests whose native-fallback `models` array exceeds 3.
+_MAX_MODELS_ARRAY = 3
 _THINK_RE = re.compile(r"<think>.*?</think>", re.DOTALL)
 
 
@@ -192,10 +194,17 @@ class OpenRouterClient:
         *,
         stream: bool,
     ) -> dict[str, Any]:
-        """Build the chat-completions request body."""
+        """Build the chat-completions request body.
+
+        The native-fallback ``models`` array starts at the currently attempted
+        model and is capped at OpenRouter's limit; the client-side loop still
+        covers the full configured list.
+        """
+        start = models.index(model) if model in models else 0
+        native_fallbacks = models[start : start + _MAX_MODELS_ARRAY]
         return {
             "model": model,
-            "models": models,
+            "models": native_fallbacks,
             "messages": [{"role": m.role.value, "content": m.content} for m in messages],
             "temperature": (
                 temperature if temperature is not None else self._settings.llm_temperature

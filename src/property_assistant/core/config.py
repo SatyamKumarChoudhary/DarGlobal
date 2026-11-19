@@ -31,10 +31,10 @@ class Settings(BaseSettings):
     # OpenRouter
     openrouter_api_key: SecretStr = SecretStr("")
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
-    llm_primary_model: str = "nvidia/nemotron-3.5-lightning:free"
+    llm_primary_model: str = "google/gemma-4-31b-it:free"
     llm_fallback_models: list[str] = [
-        "google/gemma-4-31b-it:free",
         "baidu/ernie-5.5-flash-preview:free",
+        "nvidia/nemotron-3.5-lightning:free",
         "openrouter/free",
     ]
     llm_temperature: float = 0.2

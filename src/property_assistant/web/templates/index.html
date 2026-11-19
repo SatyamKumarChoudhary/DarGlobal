@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dar Assist — DarGlobal & Wasalt Property Assistant</title>
+  <meta name="description" content="Ask about Dar Global projects and Wasalt properties." />
+  <link rel="icon" href="/static/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <img src="/static/logo.svg" alt="" class="logo" width="36" height="36" />
+      <div class="header-text">
+        <h1>Dar Assist</h1>
+        <p>Ask about Dar Global projects &amp; Wasalt properties</p>
+      </div>
+      <div class="header-actions">
+        <span id="stats-pill" class="stats-pill" hidden></span>
+        <button id="new-chat" class="btn-secondary" type="button">New chat</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="chat" id="chat">
+    <div id="messages" class="messages" role="log" aria-live="polite"></div>
+    <div id="empty-state" class="empty-state">
+      <h2>Welcome 👋</h2>
+      <p>I answer questions using publicly available data from darglobal.co.uk and wasalt.sa.</p>
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+  </main>
+
+  <footer class="composer">
+    <form id="chat-form" class="composer-inner">
+      <textarea
+        id="input"
+        rows="1"
+        placeholder="Ask about a project, partner, press release or listing…"
+        maxlength="1000"
+        aria-label="Your message"
+        required></textarea>
+      <button id="send" class="btn-primary" type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M3.4 20.4 20.85 12 3.4 3.6l-.01 6.53L15 12 3.39 13.87z"/>
+        </svg>
+      </button>
+    </form>
+    <p class="disclaimer">
+      Answers are generated from publicly available data on darglobal.co.uk and wasalt.sa. May be incomplete.
+    </p>
+  </footer>
+</body>
+</html>

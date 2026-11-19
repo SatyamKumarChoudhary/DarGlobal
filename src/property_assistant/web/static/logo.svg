@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Dar Assist">
+  <rect width="48" height="48" rx="10" fill="#0d1b2e"/>
+  <path d="M10 36V22l14-10 14 10v14h-9v-9h-10v9z" fill="none" stroke="#c9a95c" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="24" cy="18" r="2.2" fill="#c9a95c"/>
+</svg>

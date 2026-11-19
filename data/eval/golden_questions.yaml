@@ -1,0 +1,48 @@
+# Golden evaluation set: each question lists a URL fragment the top-6 retrieved
+# chunks must contain (hit@6) and keywords a correct answer must mention.
+questions:
+  - question: "What projects does Dar Global have in Oman?"
+    expected_url_contains: "properties-in-oman"
+    must_mention: ["Oman"]
+  - question: "Tell me about Trump Mansions."
+    expected_url_contains: "trump-mansions"
+    must_mention: ["Trump"]
+  - question: "Tell me about the AIDA project."
+    expected_url_contains: "aida"
+    must_mention: ["AIDA"]
+  - question: "What is Trump International Qatar?"
+    expected_url_contains: "trump-international-qatar"
+    must_mention: ["Qatar"]
+  - question: "What villas does Dar Global offer in Spain?"
+    expected_url_contains: "properties-in-spain"
+    must_mention: ["Spain"]
+  - question: "What properties does Dar Global have in the UAE?"
+    expected_url_contains: "properties-in-uae"
+    must_mention: ["UAE", "Dubai"]
+  - question: "Tell me about the Fendi Casa villas by Dar Global."
+    expected_url_contains: "fendi-casa"
+    must_mention: ["Fendi"]
+  - question: "What is the Pagani project by Dar Global?"
+    expected_url_contains: "pagani"
+    must_mention: ["Pagani"]
+  - question: "What did Dar Global announce about Jeddah recently?"
+    expected_url_contains: "press"
+    must_mention: ["Jeddah"]
+  - question: "What is Wasalt?"
+    expected_url_contains: "wasalt.sa"
+    must_mention: ["Wasalt", "Saudi"]
+  - question: "Show me villas for sale in Riyadh on Wasalt."
+    expected_url_contains: "riyadh"
+    must_mention: ["Riyadh"]
+  - question: "What apartments are for sale in Jeddah on Wasalt?"
+    expected_url_contains: "jeddah"
+    must_mention: ["Jeddah"]
+  - question: "What services does Wasalt offer for businesses?"
+    expected_url_contains: "wasalt-business"
+    must_mention: ["Wasalt"]
+  - question: "Tell me about Dar Global as a company."
+    expected_url_contains: "darglobal.co.uk"
+    must_mention: ["Dar Global"]
+  - question: "What luxury golf communities does Dar Global offer?"
+    expected_url_contains: "golf"
+    must_mention: ["golf"]

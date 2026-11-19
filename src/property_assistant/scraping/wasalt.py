@@ -56,7 +56,7 @@ class WasaltScraper(BaseScraper):
     def classify(self, url: str, content: ExtractedContent) -> DocType:
         """Classify by URL family."""
         path = urlsplit(url).path
-        if "/property/" in path:
+        if "/property/" in path or "/dailyrental" in path:
             return DocType.LISTING
         if "/project" in path:
             return DocType.PROJECT
@@ -67,23 +67,33 @@ class WasaltScraper(BaseScraper):
         return DocType.PAGE
 
     def prioritise(self, urls: list[str]) -> list[str]:
-        """Platform/service pages first; cap listings to a city-diverse sample."""
+        """Platform pages first, then a balanced, city-diverse listing sample.
+
+        Sale listings (``/property/``) and daily rentals are sampled
+        separately so one sitemap cannot crowd out the other; both favour
+        major cities.
+        """
         overview: list[str] = []
-        listings: list[str] = []
+        sale_listings: list[str] = []
+        rental_listings: list[str] = []
         other: list[str] = []
         for url in urls:
             path = urlsplit(url).path
             if "/property/" in path:
-                listings.append(url)
+                sale_listings.append(url)
+            elif "/dailyrental" in path:
+                rental_listings.append(url)
             elif path.rstrip("/") in ("/en", "/en/about") or "/s/" in path:
                 overview.append(url)
             else:
                 other.append(url)
-        prioritized_listings = sorted(
-            listings,
-            key=lambda u: 0 if any(c in u.lower() for c in _PRIORITY_CITIES) else 1,
-        )[:_MAX_LISTINGS]
-        return [*overview, *other, *prioritized_listings]
+
+        def by_city(url: str) -> int:
+            return 0 if any(city in url.lower() for city in _PRIORITY_CITIES) else 1
+
+        sampled_sales = sorted(sale_listings, key=by_city)[:_MAX_LISTINGS]
+        sampled_rentals = sorted(rental_listings, key=by_city)[: _MAX_LISTINGS // 2]
+        return [*overview, *other, *sampled_sales, *sampled_rentals]
 
     def build_metadata(self, url: str, content: ExtractedContent) -> dict[str, Any]:
         """Lift listing facts (city, price, rooms, ...) from the structured data."""

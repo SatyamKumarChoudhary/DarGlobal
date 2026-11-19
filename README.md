@@ -100,6 +100,10 @@ uv run property-assistant scrape --site all
 
 ## How the data was collected
 
+- **Snapshot (19 Nov 2026):** 411 documents → 4,371 chunks.
+  DarGlobal: 230 docs (20 projects, 70 press releases, 12 partners, 77
+  articles, corporate pages). Wasalt: 181 docs (175 listings across major
+  Saudi cities + platform/service pages).
 - **Sources:** darglobal.co.uk (projects, press, partners, corporate pages) and
   wasalt.sa English pages (platform/service pages plus a bounded, city-diverse
   sample of listings).
@@ -164,11 +168,14 @@ curl -s -X POST https://<url>/api/v1/chat -H 'Content-Type: application/json' \
 ## Testing & evaluation
 
 ```bash
-make test        # 89 unit + API tests, no network, coverage on src/
+make test        # 130 unit + API tests, no network, coverage on src/
 make eval        # golden-set retrieval evaluation → docs/EVALUATION.md
 ```
 
-Evaluation results: see [docs/EVALUATION.md](docs/EVALUATION.md).
+- **Tests:** 130 passing, **84% coverage** on `src/`; `ruff` and `mypy --strict` clean.
+- **Retrieval quality** on the 15-question golden set (full corpus of 411
+  documents / 4,371 chunks): **hit@6 = 0.87, MRR = 0.80** — full table in
+  [docs/EVALUATION.md](docs/EVALUATION.md).
 
 ## Project structure
 

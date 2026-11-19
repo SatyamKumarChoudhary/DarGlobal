@@ -19,6 +19,8 @@ platform), grounded exclusively in publicly available data scraped from
 
 > The free hosting tier sleeps when idle — the first load can take ~30 seconds.
 
+![Dar Assist chat UI](docs/assets/ui.png)
+
 ## Features
 
 - **Grounded answers with citations** — every fact is cited `[n]` and linked to its

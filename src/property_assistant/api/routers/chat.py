@@ -34,8 +34,13 @@ _EVENT_NAMES: dict[type, str] = {
 
 
 def _event_payload(event: object) -> str:
-    """Serialize a chat event dataclass to its JSON payload."""
-    data = dataclasses.asdict(event)  # type: ignore[call-overload]
+    """Serialize a chat event dataclass (possibly holding Pydantic models) to JSON."""
+    data = {
+        field.name: getattr(event, field.name)
+        for field in dataclasses.fields(event)  # type: ignore[arg-type]
+    }
+    if isinstance(event, SourcesEvent):
+        data["sources"] = [source.model_dump(mode="json") for source in event.sources]
     return json.dumps(data, default=str)
 
 

@@ -64,6 +64,23 @@ class TestChatStream:
         done = events[-1][1]
         assert done["grounded"] is True
 
+    def test_sources_event_contains_structured_sources(self, client: TestClient) -> None:
+        with client.stream(
+            "POST", "/api/v1/chat/stream", json={"message": "What is the test project?"}
+        ) as response:
+            sources_payload: dict | None = None
+            event_name = ""
+            for line in response.iter_lines():
+                if line.startswith("event:"):
+                    event_name = line.split(":", 1)[1].strip()
+                elif line.startswith("data:") and event_name == "sources":
+                    sources_payload = json.loads(line.split(":", 1)[1])
+        assert sources_payload is not None
+        source = sources_payload["sources"][0]
+        assert source["index"] == 1
+        assert source["url"].startswith("https://")
+        assert source["title"]
+
     def test_tokens_concatenate_to_the_answer(self, client: TestClient) -> None:
         with client.stream(
             "POST", "/api/v1/chat/stream", json={"message": "What is the test project?"}
